@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# eddie/postprocess.qsub.sh — combine batches, summarise, make figures + GIF
+# eddie/postprocess.qsub.sh — combine batches and summarise
 # Held automatically on the array job by eddie/submit.sh.
 # =============================================================================
 #$ -N ctmle-post
@@ -9,7 +9,7 @@
 #$ -V
 #$ -pe sharedmem 1
 #$ -l h_rt=02:00:00
-#$ -l h_vmem=8G
+#$ -l h_vmem=16G
 #$ -m ea
 #$ -o logs/$JOB_NAME-$JOB_ID.out
 #$ -e logs/$JOB_NAME-$JOB_ID.err
@@ -25,5 +25,5 @@ echo "Found ${n_batches} of 20 batch files"
 [[ "${n_batches}" -eq 20 ]] || echo "WARNING: some tasks did not finish; summarising what is there."
 
 julia --project=. scripts/combine_results.jl
-julia --project=. scripts/make_figures.jl
-echo "Done $(date). See results/summary.md and figures/."
+echo "Done $(date). See results/summary.md."
+echo "Make the figures on your own machine: python scripts/make_figures.py"

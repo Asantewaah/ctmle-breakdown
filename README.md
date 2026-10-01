@@ -57,9 +57,9 @@ At the strongest setting (instrument strength 2, 100 datasets):
 - **C-TMLE's intervals are too narrow** once instruments are strong: coverage is 88 to 91% for the greedy strategy and falls to 78% for adaptive correlation at strength 2. The standard variance estimate treats the selected propensity score model as if it had been chosen in advance, so it ignores the uncertainty from the selection itself. Accuracy is excellent, but the reported uncertainty should be treated with some caution.
 - At strength 0.5 every estimator, including the oracle, covers 85 to 89%. With 100 datasets per setting, coverage estimates have a Monte Carlo error of about ±4 percentage points, so this is most likely chance.
 
-![Coverage and interval width by instrument strength](figures/coverage_and_width.png)
+![Error, interval width and coverage of each estimator as instrument strength increases](figures/accuracy_by_strength.png)
 
-![Estimates at strong instrument strength](figures/estimates_strong_instruments.png)
+![Estimates from all 100 datasets at instrument strength 2, by estimator](figures/estimates_strong_instruments.png)
 
 The full table is in [`results/summary.md`](results/summary.md).
 
@@ -78,7 +78,7 @@ julia --project -e 'using Pkg; Pkg.instantiate()'
 
 # Simulation study (use N_REPS=10 for a quick test run)
 julia --project -t auto scripts/run_simulation.jl
-julia --project scripts/make_figures.jl
+python scripts/make_figures.py      # figures and GIF (numpy, pandas, matplotlib, pillow)
 
 # Interactive notebook
 julia --project -e 'using Pluto; Pluto.run(notebook="notebooks/ctmle_explainer.jl")'
@@ -92,7 +92,7 @@ The full study (5 instrument strengths × 100 replicates) is split into a 20-tas
 
 ```bash
 eddie/submit.sh smoke              # setup + one task, to check timing
-SKIP_SETUP=1 eddie/submit.sh       # all 20 tasks, then combine + figures
+SKIP_SETUP=1 eddie/submit.sh       # all 20 tasks, then combine into results/
 ```
 
 ## Repository structure
@@ -103,7 +103,8 @@ SKIP_SETUP=1 eddie/submit.sh       # all 20 tasks, then combine + figures
 ├── scripts/run_simulation.jl      repeated simulation → results/ (or one batch on a cluster)
 ├── scripts/combine_results.jl     joins cluster batches → results/
 ├── eddie/                         SGE job scripts for the University of Edinburgh cluster
-├── scripts/make_figures.jl        figures and GIF → figures/
+├── scripts/make_figures.py        figures and GIF → figures/ (Python, reads results/)
+├── scripts/style.py               shared chart style
 ├── notebooks/ctmle_explainer.jl   interactive Pluto notebook
 ├── results/                       raw results and summary tables
 └── figures/

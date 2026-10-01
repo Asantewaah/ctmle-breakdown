@@ -15,9 +15,10 @@
 #$ -V
 #$ -t 1-20
 #$ -pe sharedmem 8
-#$ -l h_rt=12:00:00
-#$ -l h_vmem=4G
+#$ -l h_rt=02:00:00
+#$ -l h_vmem=8G
 #$ -m a
+#$ -M s2719123@ed.ac.uk
 #$ -o logs/$JOB_NAME-$JOB_ID.$TASK_ID.out
 #$ -e logs/$JOB_NAME-$JOB_ID.$TASK_ID.err
 
@@ -45,6 +46,6 @@ echo "Instrument strength ${INSTRUMENT_LEVELS}, replicates ${REP_START}-${REP_EN
 echo "Output ${BATCH_FILE}"
 echo "Started $(date)"
 
-julia --project=. -t "${NSLOTS:-1}" scripts/run_simulation.jl
+julia --project=. -t "${NSLOTS:-1}" --heap-size-hint=40G scripts/run_simulation.jl
 
 echo "Finished $(date)"
