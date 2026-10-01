@@ -55,8 +55,8 @@ The full table is in [`results/summary.md`](results/summary.md).
 Requires Julia 1.10 or later.
 
 ```bash
-git clone https://github.com/Asantewaah/ctmle-explainer.git
-cd ctmle-explainer
+git clone https://github.com/Asantewaah/ctmle-breakdown.git
+cd ctmle-breakdown
 julia --project -e 'using Pkg; Pkg.instantiate()'
 
 # Simulation study (use N_REPS=10 for a quick test run)
@@ -69,11 +69,23 @@ julia --project -e 'using Pluto; Pluto.run(notebook="notebooks/ctmle_explainer.j
 
 (Pluto is installed globally with `julia -e 'using Pkg; Pkg.add("Pluto")'`.)
 
+### On a cluster (Edinburgh's Eddie, SGE)
+
+The full study (5 instrument strengths × 100 replicates) is split into a 20-task array job, one file per task in `results/batches/`, then combined:
+
+```bash
+eddie/submit.sh smoke              # setup + one task, to check timing
+SKIP_SETUP=1 eddie/submit.sh       # all 20 tasks, then combine + figures
+```
+
 ## Repository structure
 
 ```
 ├── src/simulation.jl              data-generating process, estimators, summaries
-├── scripts/run_simulation.jl      repeated simulation → results/
+├── src/reporting.jl               writes raw results and summary tables
+├── scripts/run_simulation.jl      repeated simulation → results/ (or one batch on a cluster)
+├── scripts/combine_results.jl     joins cluster batches → results/
+├── eddie/                         SGE job scripts for the University of Edinburgh cluster
 ├── scripts/make_figures.jl        figures and GIF → figures/
 ├── notebooks/ctmle_explainer.jl   interactive Pluto notebook
 ├── results/                       raw results and summary tables

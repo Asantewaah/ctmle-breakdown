@@ -1,0 +1,22 @@
+# Eddie / SGE job logs
+logs/
+*.o[0-9]*
+*.e[0-9]*
+core.*
+
+# Partial outputs from the array job
+# (the combined results/simulation_results.csv and summary files are committed)
+results/batches/
+*.tmp
+
+# Julia
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+/LocalPreferences.toml
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
