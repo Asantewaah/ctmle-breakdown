@@ -18,7 +18,7 @@
 #$ -l h_rt=02:00:00
 #$ -l h_vmem=8G
 #$ -m a
-#$ -M s2719123@ed.ac.uk
+#$ -M <studentnumber>@ed.ac.uk
 #$ -o logs/$JOB_NAME-$JOB_ID.$TASK_ID.out
 #$ -e logs/$JOB_NAME-$JOB_ID.$TASK_ID.err
 
