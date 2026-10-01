@@ -9,7 +9,7 @@
 #$ -V
 #$ -pe sharedmem 1
 #$ -l h_rt=02:00:00
-#$ -l h_vmem=8G
+#$ -l h_vmem=16G
 #$ -m ea
 #$ -o logs/$JOB_NAME-$JOB_ID.out
 #$ -e logs/$JOB_NAME-$JOB_ID.err
