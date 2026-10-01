@@ -49,6 +49,8 @@ Threads.@threads for i in eachindex(jobs)
     res[!, :instrument] .= level
     res[!, :rep] .= rep
     outputs[i] = res
+    GC.gc()
+    GC.gc()
     k = Threads.atomic_add!(n_done, 1) + 1
     slowest = res.estimator[argmax(res.seconds)]
     say(@sprintf("  %3d / %d  strength %.1f rep %3d  %5.0f s (slowest: %s %.0f s)  elapsed %.0f min",

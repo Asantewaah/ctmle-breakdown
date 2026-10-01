@@ -2,7 +2,6 @@
 
 **An interactive explainer and simulation study showing when adjusting for every available covariate hurts causal effect estimates, and how Collaborative TMLE avoids it. Built with [TMLE.jl](https://github.com/TARGENE/TMLE.jl), the Julia package I contribute C-TMLE estimators to.**
 
-<!-- After running scripts/make_figures.jl, this GIF shows estimates as instruments get stronger -->
 ![Estimates of the average treatment effect as instrument strength increases](figures/instrument_sweep.gif)
 
 ## The problem
@@ -38,7 +37,25 @@ The study varies instrument strength from 0 to 2 with 100 datasets of 1,000 obse
 
 ## Results
 
-<!-- Filled in from results/summary.md after running the simulation -->
+**Strong instruments break the estimators that adjust for everything, and C-TMLE holds up.** With no instruments, every adjusted estimator does equally well (RMSE about 0.06). As instruments strengthen, the estimators that put all 14 covariates into the propensity score get steadily worse, while C-TMLE stays close to the oracle that knows the true roles.
+
+At the strongest setting (instrument strength 2, 100 datasets):
+
+| Estimator | Bias | RMSE | 95% CI coverage | Median CI width |
+|---|---|---|---|---|
+| Naive difference in means | 0.686 | 0.704 | 0% | 0.651 |
+| One-step (AIPW) | 0.031 | 0.240 | 93% | 0.484 |
+| TMLE (unweighted) | 0.159 | 1.645 | 39% | 0.796 |
+| TMLE (weighted) | 0.023 | 0.199 | 93% | 0.481 |
+| **C-TMLE (greedy)** | **0.001** | **0.097** | **88%** | **0.283** |
+| C-TMLE (adaptive correlation) | 0.002 | 0.100 | 78% | 0.267 |
+| Oracle TMLE | 0.011 | 0.068 | 96% | 0.252 |
+
+- **C-TMLE is about 2.5 times more accurate than AIPW** (RMSE 0.097 against 0.240) and twice as accurate as TMLE.jl's default weighted TMLE, with intervals about 40% narrower.
+- **Unweighted TMLE collapses.** With propensity scores near 0 and 1, its targeting step occasionally produces wild estimates, so its spread is about eight times AIPW's and its intervals cover the truth only 39% of the time. The weighted fluctuation, TMLE.jl's default, avoids this.
+- **The adaptive correlation strategy matches the greedy strategy's accuracy** while running roughly ten times faster, which matters for large data.
+- **C-TMLE's intervals are too narrow** once instruments are strong: coverage is 88 to 91% for the greedy strategy and falls to 78% for adaptive correlation at strength 2. The standard variance estimate treats the selected propensity score model as if it had been chosen in advance, so it ignores the uncertainty from the selection itself. Accuracy is excellent, but the reported uncertainty should be treated with some caution.
+- At strength 0.5 every estimator, including the oracle, covers 85 to 89%. With 100 datasets per setting, coverage estimates have a Monte Carlo error of about ±4 percentage points, so this is most likely chance.
 
 ![Coverage and interval width by instrument strength](figures/coverage_and_width.png)
 
