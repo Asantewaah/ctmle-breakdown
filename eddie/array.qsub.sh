@@ -15,8 +15,8 @@
 #$ -V
 #$ -t 1-20
 #$ -pe sharedmem 8
-#$ -l h_rt=12:00:00
-#$ -l h_vmem=4G
+#$ -l h_rt=02:00:00
+#$ -l h_vmem=8G
 #$ -m a
 #$ -o logs/$JOB_NAME-$JOB_ID.$TASK_ID.out
 #$ -e logs/$JOB_NAME-$JOB_ID.$TASK_ID.err
