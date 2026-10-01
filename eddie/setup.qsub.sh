@@ -14,7 +14,7 @@
 #$ -l h_rt=03:00:00
 #$ -l h_vmem=4G
 #$ -m bea
-#$ -M s2719123@ed.ac.uk
+#$ -M <studentnumber>@ed.ac.uk
 #$ -o logs/$JOB_NAME-$JOB_ID.out
 #$ -e logs/$JOB_NAME-$JOB_ID.err
 
