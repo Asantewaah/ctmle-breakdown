@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.4
+# v1.1.0
 
 using Markdown
 using InteractiveUtils
@@ -7,13 +7,21 @@ using InteractiveUtils
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     #! format: off
-    quote
+    return quote
         local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
     #! format: on
+end
+
+# ╔═╡ 40d7e96b-eda0-4e4d-83fa-f2675ce02ac0
+begin
+    import Pkg
+    Pkg.activate(joinpath(@__DIR__, ".."))
+    using PlutoUI, Plots, Printf, StableRNGs
+    include(joinpath(@__DIR__, "..", "src", "simulation.jl"))
 end
 
 # ╔═╡ 17b3f15c-ef67-48f2-aafe-c86e3c430ff4
@@ -27,14 +35,6 @@ When we estimate a causal effect from observational data, the usual instinct is 
 
 **Collaborative TMLE (C-TMLE)** chooses which covariates to put in the propensity score model *based on how much they help estimate the effect*, rather than how well they predict treatment. This notebook lets you watch that happen. Move the sliders and every estimator reruns on a freshly simulated dataset.
 """
-
-# ╔═╡ 40d7e96b-eda0-4e4d-83fa-f2675ce02ac0
-begin
-    import Pkg
-    Pkg.activate(joinpath(@__DIR__, ".."))
-    using PlutoUI, Plots, Printf
-    include(joinpath(@__DIR__, "..", "src", "simulation.jl"))
-end
 
 # ╔═╡ b7c1dfb2-7ff4-4d61-afa7-9fb1c525c614
 md"""

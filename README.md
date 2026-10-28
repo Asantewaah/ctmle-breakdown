@@ -67,6 +67,14 @@ The full table is in [`results/summary.md`](results/summary.md).
 
 [`notebooks/ctmle_explainer.jl`](notebooks/ctmle_explainer.jl) is a [Pluto](https://plutojl.org/) notebook with sliders for instrument strength, confounding strength, sample size and random seed. Every estimator reruns live, alongside a histogram of the propensity scores.
 
+**[Read the notebook in your browser](https://asantewaah.github.io/ctmle-breakdown/)** (a static copy: the charts and explanations are there, but the sliders only work when you run it yourself).
+
+To use the sliders, run it locally with Julia 1.10 or later:
+
+    julia --project -e 'using Pkg; Pkg.instantiate()'
+    julia -e 'using Pkg; Pkg.add("Pluto")'
+    julia --project -e 'using Pluto; Pluto.run(notebook="notebooks/ctmle_explainer.jl")'
+
 ## Run it yourself
 
 Requires Julia 1.10 or later.
