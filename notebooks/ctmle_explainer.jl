@@ -20,7 +20,7 @@ end
 begin
     import Pkg
     Pkg.activate(joinpath(@__DIR__, ".."))
-    using PlutoUI, Plots, Printf, StableRNGs
+    using PlutoUI, Plots, Printf, StableRNGs, DataFrames, Statistics, CategoricalArrays, Random, LogExpFunctions, TMLE
     include(joinpath(@__DIR__, "..", "src", "simulation.jl"))
 end
 
